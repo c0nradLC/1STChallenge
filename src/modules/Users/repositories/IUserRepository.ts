@@ -5,6 +5,7 @@ interface IUserRepository {
     create(data: IUserDTO): Promise<void>;
     update(data: IUserDTO): Promise<User>;
     deleteById(id: number): Promise<IUserDTO>;
+    getById(id: number): Promise<IUserDTO>;
     getByCPF(id: string): Promise<IUserDTO>;
     getAll(): Promise<IUserDTO[]>;
 }

@@ -10,7 +10,7 @@ class UserRepository implements IUserRepository {
     constructor() {
       this.repository = getRepository(User);
     }
-  
+
     async create(data: IUserDTO): Promise<void> {
       const user = this.repository.create({
         nome: data.nome,
