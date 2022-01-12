@@ -7,7 +7,6 @@ services:
     image: node:latest
     working_dir: '/usr/app'
     command: ["sh", "init.sh"]
-    tty: true
     ports: 
       - "3333:3333"
     volumes:

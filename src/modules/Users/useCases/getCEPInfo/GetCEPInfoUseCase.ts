@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { inject, injectable } from 'tsyringe';
 
 import { IViaCepProvider } from "../../../../shared/container/providers/ViaCepProvider/IViaCepProvider";

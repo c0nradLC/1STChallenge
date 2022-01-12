@@ -1,18 +1,19 @@
-import { injectable } from "tsyringe";
 import viaCep from "../../../../../services/viaCep";
-
 import { IViaCepDTO } from "../dtos/IViaCepDTO";
-
 import { IViaCepProvider } from "../IViaCepProvider";
-import { AppError } from "../../../../../errors/AppError";
 
-@injectable()
 class ViaCepProvider implements IViaCepProvider {
   constructor() {}
 
   async getCEPInfo(cep: string): Promise<IViaCepDTO> {
     try {
-      const response = await viaCep.get(`/${cep.replace(/\D+/g, "")}/json`);
+      await process.nextTick(() => {}); // Workaround to make the viaCep.get() axios request not leave an openHandle when testing with jest
+
+      const response = await viaCep.get(`/${cep.replace(/\D+/g, "")}/json`, {
+      })
+      .then(response => {
+        return response;
+      })
 
       return response.data;
     } catch (e) {

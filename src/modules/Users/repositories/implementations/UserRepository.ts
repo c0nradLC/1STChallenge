@@ -2,7 +2,6 @@ import { IUserDTO } from "../../dtos/IUserDTO";
 import { User } from "../../entities/User";
 import { getRepository, Repository } from "typeorm";
 import { IUserRepository } from "../IUserRepository";
-// import { IUserResponseDTO } from "../../dtos/IUserResponseDTO";
 
 class UserRepository implements IUserRepository {
     private repository: Repository<User>;
@@ -11,7 +10,7 @@ class UserRepository implements IUserRepository {
       this.repository = getRepository(User);
     }
 
-    async create(data: IUserDTO): Promise<void> {
+    async create(data: IUserDTO): Promise<User> {
       const user = this.repository.create({
         nome: data.nome,
         telefone: data.telefone,
@@ -22,7 +21,9 @@ class UserRepository implements IUserRepository {
         estado: data.estado,
       })
   
-      await this.repository.save(user);
+      const createdUser = await this.repository.save(user);
+
+      return createdUser;
     }
 
     async update(data: IUserDTO): Promise<User> {

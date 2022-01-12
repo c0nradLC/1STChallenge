@@ -1,4 +1,4 @@
-import { UpdateUserUseCase } from "../UpdateUserUseCase";
+import { DeleteUserUseCase } from "../DeleteUserUseCase";
 import { container } from "tsyringe";
 
 import connection from '../../../../../utils/tests/createConnection';
@@ -6,13 +6,13 @@ import '../../../../../shared/container/index';
 import { getRepository } from "typeorm";
 import { User } from "../../../entities/User";
 
-describe('Update user - Use case', () => {
-    let updateUserUseCase: UpdateUserUseCase;
+describe('Delete user - Use case', () => {
+    let deleteUserUseCase: DeleteUserUseCase;
     let userId: number;
 
     beforeAll(async () => {
         await connection.create();
-        updateUserUseCase = container.resolve(UpdateUserUseCase);
+        deleteUserUseCase = container.resolve(DeleteUserUseCase);
 
         try {
             userId = (await getRepository(User).findOne()).id;
@@ -30,28 +30,17 @@ describe('Update user - Use case', () => {
     })
 
     it('Should pass when information supplied is sufficient', async () => {
-        const response = await updateUserUseCase.execute({
-            id: userId,
-            nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "242.506.180-05",
-            cep: "65082-164",
-            logradouro: "Rua Profeta II",
-            cidade: "São Luís",
-            estado: "MA",
-        })
-        expect(response);
+        const user = await deleteUserUseCase.execute(userId);
+        expect(user);
     })
 
     it('Should pass when ID field is missing and exception is thrown', async () => {
-        await expect(updateUserUseCase.execute({
-            nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "167.589.209-17",
-            cep: "65082-164",
-            logradouro: "Rua Profeta II",
-            cidade: "São Luís",
-            estado: "MA",
-        })).rejects.toThrow();
+        await expect(deleteUserUseCase.execute(undefined))
+        .rejects.toThrow();
+    })
+
+    it('Should pass when an unexisting ID is informed and AppError is thrown', async () => {
+        await expect(deleteUserUseCase.execute(2147483647))
+        .rejects.toEqual({"message": "Este usuário não existe", "statusCode": 422});
     })
 })

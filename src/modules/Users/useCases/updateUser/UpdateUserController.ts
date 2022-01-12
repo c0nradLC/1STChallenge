@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,7 +17,7 @@ class UpdateUserController {
             estado
         } = request.body;
 
-        if (!nome || !telefone || !cpf || !cep || !logradouro || !cidade || !estado) {
+        if (!id || !nome || !telefone || !cpf || !cep || !logradouro || !cidade || !estado) {
             return response.status(400).send('Preencha todos os campos');
         }
 

@@ -17,7 +17,7 @@ class UpdateUserUseCase {
     const user = await this.userRepository.getById(data.id);
 
     if (!user) {
-      throw new AppError("Este usuário não existe");
+      throw new AppError("Este usuário não existe", 422);
     }
     
     const updatedUser = await this.userRepository.update(data);
