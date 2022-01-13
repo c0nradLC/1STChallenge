@@ -1,7 +1,7 @@
 import { UpdateUserUseCase } from "../UpdateUserUseCase";
 import { container } from "tsyringe";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 import { getRepository } from "typeorm";
 import { User } from "../../../entities/User";
@@ -12,7 +12,7 @@ describe('Update user - Use case', () => {
     let userId: number;
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
         updateUserUseCase = container.resolve(UpdateUserUseCase);
 
         try {
@@ -28,6 +28,10 @@ describe('Update user - Use case', () => {
                 estado: "Estado 11",
             })?.id;
         }
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when information supplied is sufficient', async () => {

@@ -8,7 +8,7 @@ interface IViaCepDTO {
     ibge: number,
     gia: number,
     ddd: number,
-    siafi: number
+    siafi: number,
 }
 
 export { IViaCepDTO };

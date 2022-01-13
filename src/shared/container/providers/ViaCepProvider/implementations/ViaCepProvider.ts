@@ -9,15 +9,10 @@ class ViaCepProvider implements IViaCepProvider {
     try {
       await process.nextTick(() => {}); // Workaround to make the viaCep.get() axios request not leave an openHandle when testing with jest
 
-      const response = await viaCep.get(`/${cep.replace(/\D+/g, "")}/json`, {
-      })
-      .then(response => {
-        return response;
-      })
+      const response = await viaCep.get(`/${cep.match(/^[0-9]+$/) ? cep : cep.replace(/\D+/g, "")}/json`)
 
       return response.data;
     } catch (e) {
-      console.log(e);
     }
   }
 }

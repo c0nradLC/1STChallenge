@@ -1,7 +1,7 @@
 import { ListUserByCPFUseCase } from "../ListUserByCPFUseCase";
 import { container } from "tsyringe";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 import { User } from "../../../entities/User";
 import { getRepository } from "typeorm";
@@ -10,8 +10,12 @@ describe('List user by CPF - Use case', () => {
     let listUserByCPFUseCase: ListUserByCPFUseCase;
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
         listUserByCPFUseCase = container.resolve(ListUserByCPFUseCase);
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when a string is informed and the user with the CPF equal to the string is returned', async () => {

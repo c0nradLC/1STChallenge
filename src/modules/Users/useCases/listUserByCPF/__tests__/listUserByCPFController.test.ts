@@ -2,14 +2,18 @@ import { ListUserByCPFController } from "../ListUserByCPFController";
 import { User } from "../../../entities/User";
 import { Request, Response } from "express";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
 describe('List user by CPF - Controller', () => {
     const listUserByCPFController: ListUserByCPFController = new ListUserByCPFController();
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when request is sent with cpf field and HTTP status code 200 is returned', async () => {

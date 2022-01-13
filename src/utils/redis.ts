@@ -1,9 +1,9 @@
 import { createClient } from 'redis';
 
-export default function getClient() {
+function getClient() {
     const client = createClient({
         socket: {
-            host: 'redis',
+            host: process.env.REDIS_HOST,
             port: 6379
         }
     });
@@ -12,3 +12,5 @@ export default function getClient() {
 
     return client;
 }
+
+export { getClient };

@@ -1,7 +1,7 @@
 import { CreateUserUseCase } from "../CreateUserUseCase";
 import { container } from "tsyringe";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
 import { getRepository } from "typeorm";
@@ -11,8 +11,12 @@ describe('Create user - Use case', () => {
     let createUserUseCase: CreateUserUseCase;
 
     beforeAll(async () => {
-        await connection.create(); 
+        await dbConnection.create(); 
         createUserUseCase = container.resolve(CreateUserUseCase);
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when information supplied is sufficient', async () => {

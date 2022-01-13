@@ -1,36 +1,50 @@
-import { GetCEPInfoUseCase } from "../GetCEPInfoUseCase";
+import "reflect-metadata"
 import { container } from "tsyringe";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { GetCEPInfoUseCase } from "../GetCEPInfoUseCase";
+
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
 describe('Get CEP information - Use case', () => {
     let getCEPInfoUseCase: GetCEPInfoUseCase;
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
         getCEPInfoUseCase = container.resolve(GetCEPInfoUseCase);
     })
 
-    it('Should pass when a string is informed and the CEP information is returned', async () => {
-
-        const cep = await getCEPInfoUseCase.execute("59275970");
-
-        expect(cep).toHaveProperty("cep");
-        expect(cep).toHaveProperty("cidade");
-        expect(cep).toHaveProperty("estado");
-        expect(cep).toHaveProperty("logradouro");
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
-    // it('Should pass when a string is informed and there is no user with its CPF equal to the informed string', async () => {
-    //     const user = await getCEPInfoUseCase.execute("111.111.111-11");
+    it('Should pass when a string with a valid CEP is informed and the CEP information is returned', async () => {
+        const cepWithDash = await getCEPInfoUseCase.execute("59275-970");
+        const cepWithoutDash = await getCEPInfoUseCase.execute("59275970");
 
-    //     expect(user).toEqual(undefined);
-    // })
+        expect(cepWithoutDash && cepWithDash).toHaveProperty("cep");
+        expect(cepWithoutDash && cepWithDash).toHaveProperty("cidade");
+        expect(cepWithoutDash && cepWithDash).toHaveProperty("estado");
+        expect(cepWithoutDash && cepWithDash).toHaveProperty("logradouro");
+    })
 
-    // it('Should pass when no string is informed and useCase returns undefined', async () => {
-    //     const user = await getCEPInfoUseCase.execute(undefined);
+    it('Should pass when a string is informed with an unexistent CEP', async () => {
+        const cepWithDash = await getCEPInfoUseCase.execute("00001-000");
+        const cepWithoutDash = await getCEPInfoUseCase.execute("00001000");
 
-    //     expect(user).toEqual(undefined);
-    // })
+        expect(cepWithoutDash && cepWithDash).toEqual({});
+    })
+
+    it('Should pass when a string is informed with an invalid CEP format or when no string is informed', async () => {
+        jest.setTimeout(15000);
+
+        await expect(getCEPInfoUseCase.execute("592759700"))
+        .rejects.toEqual({"message": "CEP não encontrado", "statusCode": 422});
+
+        await expect(getCEPInfoUseCase.execute("592759-700"))
+        .rejects.toEqual({"message": "CEP não encontrado", "statusCode": 422});
+
+        await expect(getCEPInfoUseCase.execute(undefined))
+        .rejects.toEqual({"message": "CEP não encontrado", "statusCode": 422});
+    })
 })

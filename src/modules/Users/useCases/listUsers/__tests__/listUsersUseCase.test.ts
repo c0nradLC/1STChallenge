@@ -2,15 +2,19 @@ import { ListUsersUseCase } from "../ListUsersUseCase";
 import { container } from "tsyringe";
 import { User } from "../../../entities/User";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
 describe('List users - Use case', () => {
     let listUsersUseCase: ListUsersUseCase;
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
         listUsersUseCase = container.resolve(ListUsersUseCase);
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when an array with User objects is returned', async () => {

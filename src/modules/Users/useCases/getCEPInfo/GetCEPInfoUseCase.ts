@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IViaCepProvider } from "../../../../shared/container/providers/ViaCepProvider/IViaCepProvider";
 import { IUserCEPInfoDTO } from "../../dtos/IUserCEPInfoDTO";
+import { AppError } from "../../../../errors/AppError";
 
 @injectable()
 class GetCEPInfoUseCase {
@@ -14,6 +15,10 @@ class GetCEPInfoUseCase {
     async execute(cep: string): Promise<IUserCEPInfoDTO> {
         const cepInfo = await this.viaCepProvider.getCEPInfo(cep);
     
+        if (!cepInfo) {
+            throw new AppError("CEP não encontrado", 422);
+        }
+
         return {
             cep: cepInfo.cep,
             cidade: cepInfo.localidade,

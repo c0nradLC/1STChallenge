@@ -3,7 +3,7 @@ import { getRepository } from "typeorm";
 import { User } from "../../../entities/User";
 import { Request, Response } from "express";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
 describe('Delete user - Controller', () => {
@@ -11,7 +11,7 @@ describe('Delete user - Controller', () => {
     let userId: number;
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
 
         try {
             userId = (await getRepository(User).findOne()).id;
@@ -26,6 +26,10 @@ describe('Delete user - Controller', () => {
                 estado: "Estado 11",
             })?.id;
         }
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when request is sent in the correct format and HTTP status code 204 is returned', async () => {

@@ -1,7 +1,6 @@
 import {createConnection, getConnection, getConnectionOptions} from 'typeorm';
 
-
-const connection = {
+const dbConnection = {
   async create(){
     const options = await getConnectionOptions();
 
@@ -17,4 +16,5 @@ const connection = {
     await getConnection().close(); 
   }
 };
-export default connection;
+
+export { dbConnection }

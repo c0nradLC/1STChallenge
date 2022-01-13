@@ -4,9 +4,9 @@ interface IUserDTO {
     telefone: string;
     cpf: string;
     cep: string;
-    logradouro: string;
-    cidade: string;
-    estado: string;
+    logradouro?: string;
+    cidade?: string;
+    estado?: string;
 }
 
 export { IUserDTO };

@@ -2,7 +2,7 @@ import { CreateUserController } from "../CreateUserController";
 
 import { Request, Response } from "express";
 
-import connection from '../../../../../utils/tests/createConnection';
+import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 import { IUserDTO } from "modules/Users/dtos/IUserDTO";
 
@@ -10,7 +10,11 @@ describe('Create user - Controller', () => {
     const createUserController: CreateUserController = new CreateUserController();
 
     beforeAll(async () => {
-        await connection.create();
+        await dbConnection.create();
+    })
+
+    afterAll(async() => {
+        await dbConnection.close();
     })
 
     it('Should pass when request is sent in the correct format and HTTP status code 201 is returned', async () => {
