@@ -34,8 +34,6 @@ services:
     volumes:
       - ./.docker/mysql/data:/var/lib/mysql
       - ./.docker/mysql:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping"]
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

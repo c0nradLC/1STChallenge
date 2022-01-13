@@ -13,13 +13,9 @@ class DeleteUserController {
 
         const deleteUserUseCase = container.resolve(DeleteUserUseCase);
 
-        await deleteUserUseCase.execute(Number(id))
-        .then(() => {
-            return response.status(204).send();
-        })
-        .catch((res) => {
-            return response.status(res.statusCode).send(res.message);
-        });
+        const deletedUser = await deleteUserUseCase.execute(Number(id))
+
+        return response.status(204).send(deletedUser);
     }
 }
 

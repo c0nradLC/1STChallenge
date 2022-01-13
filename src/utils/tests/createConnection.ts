@@ -9,7 +9,7 @@ const dbConnection = {
           database: process.env.TYPEORM_DATABASE_TEST,
           host: "0.0.0.0",
         }),
-    );;
+    );
   },
 
   async close(){

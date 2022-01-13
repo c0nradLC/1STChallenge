@@ -5,5 +5,11 @@ module.exports = {
   moduleNameMapper: {
     "@1STChallenge/(.*)": "<rootDir>/src/$1"
   },
-  testSequencer: "./src/utils/tests/testSequencer.js"
+  testSequencer: "./src/utils/tests/testSequencer.js",
+  testTimeout: 30000,
+  globals: {
+    'ts-jest': {
+        isolatedModules: true
+    }
+  },
 };

@@ -79,29 +79,4 @@ describe('Update user - Controller', () => {
         expect(mRes.send).toHaveBeenCalled();
         expect(mRes.send).toBeCalledWith('Preencha todos os campos');
     })
-
-    it('Should pass when ID is of an unexisting user and HTTP status code 422 is returned', async () => {
-        const mReq = ({
-            body: {
-                id: 2147483647,
-                nome: "Leonardo Palhano Conrado",
-                telefone: "(11) 53899-2433",
-                cpf: "242.506.180-05",
-                cep: "65082-164",
-                logradouro: "Rua Profeta II",
-                cidade: "São Luís",
-                estado: "MA",
-            },
-        } as unknown) as Request;
-        const mRes = ({
-            status: jest.fn().mockReturnThis(), 
-            send: jest.fn() 
-        } as unknown) as Response;
-
-        await updateUserController.handle(mReq, mRes);
-
-        expect(mRes.status).toBeCalledWith(422);
-        expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith('Este usuário não existe');
-    })
 })

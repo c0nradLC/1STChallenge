@@ -1,18 +1,45 @@
-import { CreateUserUseCase } from "../CreateUserUseCase";
+import "reflect-metadata";
 import { container } from "tsyringe";
+import { getRepository } from "typeorm";
+import { hash } from "bcrypt";
+
+import { CreateUserUseCase } from "../CreateUserUseCase";
+import { IUserDTO } from "../../../dtos/IUserDTO";
+import { ListUserByCPFUseCase } from "../../listUserByCPF/ListUserByCPFUseCase";
+import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
 
-import { getRepository } from "typeorm";
-import { IUserDTO } from "../../../dtos/IUserDTO";
-
 describe('Create user - Use case', () => {
     let createUserUseCase: CreateUserUseCase;
+    let listUserByCPFUseCase: ListUserByCPFUseCase;
+    let cpf: string;
+
+    let data: IUserDTO;
 
     beforeAll(async () => {
         await dbConnection.create(); 
         createUserUseCase = container.resolve(CreateUserUseCase);
+        listUserByCPFUseCase = container.resolve(ListUserByCPFUseCase);
+
+        cpf = await hash("242.506.180-05".replace(/\D+/g, ""), process.env.BCRYPT_SALT);
+
+        data = {
+            nome: "Leonardo Palhano Conrado",
+            telefone: "11538992433",
+            cpf: cpf,
+            cep: "65082-164",
+            logradouro: "Rua Profeta II",
+            cidade: "São Luís",
+            estado: "MA",
+        };
+
+        const user = await listUserByCPFUseCase.execute(cpf);
+
+        if (user) {
+            getRepository(User).delete([user.id]);
+        }
     })
 
     afterAll(async() => {
@@ -20,15 +47,7 @@ describe('Create user - Use case', () => {
     })
 
     it('Should pass when information supplied is sufficient', async () => {
-        const data: IUserDTO = {
-            nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "242.506.180-05",
-            cep: "65082-164",
-            logradouro: "Rua Profeta II",
-            cidade: "São Luís",
-            estado: "MA",
-        };
+        // jest.setTimeout(10000);
         
         const user = await createUserUseCase.execute(data);
         delete user.id;
@@ -37,9 +56,11 @@ describe('Create user - Use case', () => {
     })
 
     it('Should pass when any field is missing and exception is thrown', async () => {
+        // jest.setTimeout(15000);
+
         await expect(createUserUseCase.execute({
             nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
+            telefone: "11538992433",
             cpf: undefined,
             cep: "65082-164",
             logradouro: "Rua Profeta II",

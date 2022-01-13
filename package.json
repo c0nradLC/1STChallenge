@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --poll --inspect=0.0.0.0 --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "test": "jest --detectOpenHandles",
+    "test": "jest --detectOpenHandles --runInBand",
     "test:coverage": "jest --detectOpenHandles --collectCoverage",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli"
   },
@@ -16,6 +16,7 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "redis": "^4.0.1",

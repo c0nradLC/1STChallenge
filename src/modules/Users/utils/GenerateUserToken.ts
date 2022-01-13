@@ -9,6 +9,7 @@ class GenerateUserToken {
 
   async execute(user: IUserDTO): Promise<IResponseUserAuthenticate> {
     const token = sign({}, process.env.JWT_SECRET_KEY, {
+      subject: user.id.toString(),
       expiresIn: '1d',
     });
 

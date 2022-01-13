@@ -29,7 +29,7 @@ class CreateUserUseCase {
             };
         }));
 
-        if (await this.userRepository.getByCPF(data.cpf)) {
+        if (await this.userRepository.getByCPF(data?.cpf)) {
             throw new AppError("Usuário já cadastrado", 422);
         }
 

@@ -18,9 +18,9 @@ class DeleteUserUseCase {
             throw new AppError("Este usuário não existe", 422);
         }
 
-        await this.userRepository.deleteById(userId);
+        const deletedUser = await this.userRepository.deleteById(userId);
 
-        return user;
+        return deletedUser;
     }
 }
 

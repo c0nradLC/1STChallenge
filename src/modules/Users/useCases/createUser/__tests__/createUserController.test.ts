@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { IUserDTO } from "modules/Users/dtos/IUserDTO";
+import { hash } from "bcrypt";
 
 describe('Create user - Controller', () => {
     const createUserController: CreateUserController = new CreateUserController();
@@ -18,18 +18,18 @@ describe('Create user - Controller', () => {
     })
 
     it('Should pass when request is sent in the correct format and HTTP status code 201 is returned', async () => {
-        const data: IUserDTO = {
-            nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "242.506.180-05",
-            cep: "65082-164",
-            logradouro: "Rua Profeta II",
-            cidade: "São Luís",
-            estado: "MA",
-        }
+        // jest.setTimeout(20000);
 
         const mReq = ({
-            body: data
+            body: {
+                nome: "Leonardo Palhano Conrado",
+                telefone: "(11) 53899-2433",
+                cpf: "242.506.180-05",
+                cep: "65082-164",
+                logradouro: "Rua Profeta II",
+                cidade: "São Luís",
+                estado: "MA",
+            }
         } as unknown) as Request;
 
         const mRes = ({
@@ -37,11 +37,23 @@ describe('Create user - Controller', () => {
             send: jest.fn()
         } as unknown) as Response;
 
-        await createUserController.handle(mReq, mRes);
+        try {
+            await createUserController.handle(mReq, mRes);
 
-        expect(mRes.status).toBeCalledWith(201);
-        expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith(data);
+            expect(mRes.status).toBeCalledWith(201);
+            expect(mRes.send).toHaveBeenCalled();
+            expect(mRes.send).toBeCalledWith({
+                nome: "Leonardo Palhano Conrado",
+                telefone: "11538992433",
+                cpf: await hash('24250618005'.replace(/\D+/g, ""), process.env.BCRYPT_SALT),
+                cep: "65082-164",
+                logradouro: "Rua Profeta II",
+                cidade: "São Luís",
+                estado: "MA",
+            });
+        } catch(e) {
+            expect(e).toEqual({message: "Usuário já cadastrado", statusCode: 422})
+        }
     })
 
     it('Should pass when any field is missing and HTTP status code 400 is returned', async () => {

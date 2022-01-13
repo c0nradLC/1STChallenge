@@ -24,19 +24,15 @@ class CreateUserController {
 
         const createUserUseCase = container.resolve(CreateUserUseCase);
 
-        await createUserUseCase.execute({
+        const user = await createUserUseCase.execute({
             nome: nome,
             telefone: telefoneRep,
             cpf: cpfRep,
             cep: cep
         })
-        .then((user) => {
-            delete user.id;
-            return response.status(201).send(user);
-        })
-        .catch((res) => {
-            return response.status(res.statusCode).send(res.message);
-        });
+
+        delete user.id;
+        return response.status(201).send(user);
     }
 }
 

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import { UpdateUserUseCase } from './UpdateUserUseCase';
+import { hash } from "bcrypt";
 
 class UpdateUserController {
     async handle(request: Request, response: Response): Promise<Response> {
@@ -21,23 +22,24 @@ class UpdateUserController {
             return response.status(400).send('Preencha todos os campos');
         }
 
+        const telefoneRep = telefone.replace(/\D+/g, "");
+
+        const cpfRep = await hash(cpf.replace(/\D+/g, ""), process.env.BCRYPT_SALT);
+
         const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
-        await updateUserUseCase.execute({
+        const user = await updateUserUseCase.execute({
             id: id,
             nome: nome,
-            telefone: telefone,
-            cpf: cpf,
+            telefone: telefoneRep,
+            cpf: cpfRep,
             cep: cep,
             logradouro: logradouro,
             cidade: cidade,
             estado: estado
         })
-        .catch((res) => {
-            return response.status(res.statusCode).send(res.message);
-        });
 
-        return response.status(200).send();
+        return response.status(200).send(user);
     }
 }
   

@@ -6,22 +6,27 @@ import '../../../../../shared/container/index';
 import { getRepository } from "typeorm";
 import { User } from "../../../entities/User";
 import { IUserDTO } from "modules/Users/dtos/IUserDTO";
+import { hash } from "bcrypt";
 
 describe('Update user - Use case', () => {
     let updateUserUseCase: UpdateUserUseCase;
     let userId: number;
+    let cpf: string;
+    let cpfUpdate: string;
 
     beforeAll(async () => {
         await dbConnection.create();
         updateUserUseCase = container.resolve(UpdateUserUseCase);
+
+        cpf = await hash("242.506.180-05", process.env.BCRYPT_SALT);
 
         try {
             userId = (await getRepository(User).findOne()).id;
         } catch (e) {
             userId = getRepository(User).create({
                 nome: "Usuário teste",
-                telefone: "(11) 11111-1111",
-                cpf: "111.111.111-11",
+                telefone: "11111111111",
+                cpf: cpf,
                 cep: "11111-111",
                 logradouro: "Rua 11",
                 cidade: "Cidade 11",
@@ -38,8 +43,8 @@ describe('Update user - Use case', () => {
         const data: IUserDTO = {
             id: userId,
             nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "242.506.180-05",
+            telefone: "11538992433",
+            cpf: cpf,
             cep: "65082-164",
             logradouro: "Rua Profeta II",
             cidade: "São Luís",
@@ -51,11 +56,11 @@ describe('Update user - Use case', () => {
         expect(user).toEqual(data);
     })
 
-    it('Should pass when ID field is missing and exception is thrown', async () => {
+    it('Should pass when cpf field is missing and exception is thrown', async () => {
         await expect(updateUserUseCase.execute({
             nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "167.589.209-17",
+            telefone: "11538992433",
+            cpf: undefined,
             cep: "65082-164",
             logradouro: "Rua Profeta II",
             cidade: "São Luís",
@@ -67,8 +72,8 @@ describe('Update user - Use case', () => {
         await expect(updateUserUseCase.execute({
             id: 2147483647,
             nome: "Leonardo Palhano Conrado",
-            telefone: "(11) 53899-2433",
-            cpf: "167.589.209-17",
+            telefone: "11538992433",
+            cpf: cpfUpdate,
             cep: "65082-164",
             logradouro: "Rua Profeta II",
             cidade: "São Luís",

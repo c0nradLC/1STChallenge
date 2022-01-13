@@ -13,16 +13,12 @@ class AuthenticateUserController {
         return response.status(400).send('Preencha todos os campos');
     }
 
-    await authenticateUserUseCase.execute({
+    const res = await authenticateUserUseCase.execute({
         telefone,
         cpf,
     })
-    .then((res) => {
-        return response.status(200).send(res);
-    })
-    .catch((res) => {
-        return response.status(res.statusCode).send(res.message);
-    });
+    
+    return response.status(200).send(res);
   }
 }
 
