@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { hash } from 'bcrypt';
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
+import ValidateAndReturnCPF from "../../utils/ValidateAndReturnCPF";
 
 class CreateUserController {
     async handle(request: Request, response: Response): Promise<Response> {
@@ -13,14 +13,18 @@ class CreateUserController {
             cpf,
             cep
         } = request.body;
-    
+
         if (!nome || !telefone || !cpf || !cep) {
-            return response.status(400).send('Preencha todos os campos');
+            return response.status(400).send({error: 400, message: 'Preencha todos os campos'});
+        }
+
+        let cpfRep = await ValidateAndReturnCPF(cpf);
+
+        if (!cpfRep) {
+            return response.status(400).send({error: 400, message: 'CPF inválido'});
         }
 
         const telefoneRep = telefone.replace(/\D+/g, "");
-
-        const cpfRep = await hash(cpf.replace(/\D+/g, ""), process.env.BCRYPT_SALT);
 
         const createUserUseCase = container.resolve(CreateUserUseCase);
 

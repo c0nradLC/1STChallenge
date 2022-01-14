@@ -74,6 +74,6 @@ describe('Delete user - Controller', () => {
 
         expect(mRes.status).toBeCalledWith(400);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith("Campo 'id' esperado!");
+        expect(mRes.send).toBeCalledWith({"error": 400, "message": "Id não informado!"});
     })
 })

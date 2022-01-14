@@ -10,7 +10,7 @@ class ListUserByCPFController {
         const { cpf } = request.params;
 
         if (!cpf) {
-            return response.status(400).send("Campo 'cpf' esperado!");    
+            return response.status(400).send({error: 400, message: "CPF não informado"});    
         }
 
         const listUserByCPFUseCase = container.resolve(ListUserByCPFUseCase);
@@ -19,6 +19,10 @@ class ListUserByCPFController {
 
         const user = await listUserByCPFUseCase.execute(cpfRep);
     
+        if (!user) {
+            return response.status(422).send({error: 422, message: "Usuário não encontrado"});
+        }
+
         return response.status(200).send(user);
     }
 }

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { container } from "tsyringe";
 import { getRepository } from "typeorm";
 import { hash } from "bcrypt";

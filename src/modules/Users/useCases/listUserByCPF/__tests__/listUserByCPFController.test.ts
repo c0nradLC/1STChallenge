@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Request, Response } from "express";
 import { hash } from "bcrypt";
 import { container } from "tsyringe";
@@ -75,10 +76,10 @@ describe('List user by CPF - Controller', () => {
 
         expect(mRes.status).toBeCalledWith(400);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith("Campo 'cpf' esperado!");
+        expect(mRes.send).toBeCalledWith({"error": 400, "message": "CPF não informado"});
     })
 
-    it("Should pass when the informed cpf does not match any user's cpf and HTTP status code 200 is returned", async () => {
+    it("Should pass when the informed cpf does not match any user's cpf and HTTP status code 422 is returned", async () => {
         const mReq = ({
             params: {
                 cpf: "111.111.111-11"
@@ -91,8 +92,8 @@ describe('List user by CPF - Controller', () => {
 
         await listUserByCPFController.handle(mReq, mRes);
 
-        expect(mRes.status).toBeCalledWith(200);
+        expect(mRes.status).toBeCalledWith(422);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith(undefined);
+        expect(mRes.send).toBeCalledWith({"error": 422, "message": "Usuário não encontrado"});
     })
 })

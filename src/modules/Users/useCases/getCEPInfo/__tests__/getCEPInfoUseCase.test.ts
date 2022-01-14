@@ -36,8 +36,6 @@ describe('Get CEP information - Use case', () => {
     })
 
     it('Should pass when a string is informed with an invalid CEP format or when no string is informed', async () => {
-        jest.setTimeout(20000);
-
         await expect(getCEPInfoUseCase.execute("592759700"))
         .rejects.toEqual({"message": "CEP não encontrado", "statusCode": 422});
 

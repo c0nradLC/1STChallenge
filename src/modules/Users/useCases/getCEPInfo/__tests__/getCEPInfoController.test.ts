@@ -60,7 +60,7 @@ describe('Get CEP information - Controller', () => {
 
         expect(mRes.status).toBeCalledWith(400);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith('CEP não informado!');
+        expect(mRes.send).toBeCalledWith({"error": 400, "message": "CEP não informado!"});
     })
 
     it('Should pass when informed cep is invalid and HTTP status code 400 is returned', async () => {
@@ -79,6 +79,6 @@ describe('Get CEP information - Controller', () => {
 
         expect(mRes.status).toBeCalledWith(400);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith('CEP inválido!');
+        expect(mRes.send).toBeCalledWith({"error": 400, "message": "CEP inválido!"});
     })
 })

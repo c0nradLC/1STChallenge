@@ -78,6 +78,6 @@ describe('Update user - Controller', () => {
 
         expect(mRes.status).toBeCalledWith(400);
         expect(mRes.send).toHaveBeenCalled();
-        expect(mRes.send).toBeCalledWith('Preencha todos os campos');
+        expect(mRes.send).toBeCalledWith({"error": 400, "message": "Preencha todos os campos"});
     })
 })

@@ -10,7 +10,7 @@ class AuthenticateUserController {
     const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
 
     if (!telefone || !cpf) {
-        return response.status(400).send('Preencha todos os campos');
+        return response.status(400).send({error: 400, message: 'Preencha todos os campos'});
     }
 
     const res = await authenticateUserUseCase.execute({

@@ -18,11 +18,11 @@ class GetCEPInfoController {
         await client.connect();
 
         if (!cep) {
-            return response.status(400).send("CEP não informado!");    
+            return response.status(400).send({error: 400, message: "CEP não informado!"});    
         }
 
         if (cep.length != 8) {
-            return response.status(400).send("CEP inválido!");    
+            return response.status(400).send({error: 400, message: "CEP inválido!"});    
         }
 
         if (! await client.exists(`${cep}`)) {
@@ -31,7 +31,7 @@ class GetCEPInfoController {
             const cepInfo = await getCEPInfoUseCase.execute(String(cep));
     
             await client.set(`${cep}`, JSON.stringify(cepInfo));
-            await client.expire(`${cep}`, 600);
+            await client.expire(`${cep}`, 300);
             
             return response.status(200).send(cepInfo);
         } else {

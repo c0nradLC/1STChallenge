@@ -47,8 +47,6 @@ describe('Create user - Use case', () => {
     })
 
     it('Should pass when information supplied is sufficient', async () => {
-        // jest.setTimeout(10000);
-        
         const user = await createUserUseCase.execute(data);
         delete user.id;
 
@@ -56,8 +54,6 @@ describe('Create user - Use case', () => {
     })
 
     it('Should pass when any field is missing and exception is thrown', async () => {
-        // jest.setTimeout(15000);
-
         await expect(createUserUseCase.execute({
             nome: "Leonardo Palhano Conrado",
             telefone: "11538992433",

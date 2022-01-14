@@ -9,7 +9,7 @@ class DeleteUserController {
         const { id } = request.params;
 
         if (!id) {
-            return response.status(400).send("Campo 'id' esperado!");    
+            return response.status(400).send({error: 400, message: "Id não informado!"});    
         }
 
         const deleteUserUseCase = container.resolve(DeleteUserUseCase);

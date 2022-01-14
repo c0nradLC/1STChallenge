@@ -19,7 +19,7 @@ class UpdateUserController {
         } = request.body;
 
         if (!id || !nome || !telefone || !cpf || !cep || !logradouro || !cidade || !estado) {
-            return response.status(400).send('Preencha todos os campos');
+            return response.status(400).send({error: 400, message: 'Preencha todos os campos'});
         }
 
         const telefoneRep = telefone.replace(/\D+/g, "");
