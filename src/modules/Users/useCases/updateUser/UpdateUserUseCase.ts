@@ -20,8 +20,13 @@ class UpdateUserUseCase {
     if (!user) {
       throw new AppError("Este usuário não existe", 422);
     }
+
+    if (user.cpf !== data.permissions) {
+      throw new AppError("Usuário sem permissões", 403);
+    }
     
     const updatedUser = await this.userRepository.update(data);
+    delete updatedUser.cpf;
 
     return updatedUser;
   }

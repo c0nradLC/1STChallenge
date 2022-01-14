@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { hash } from "bcrypt";
 
 import { UpdateUserUseCase } from './UpdateUserUseCase';
 
@@ -11,20 +10,18 @@ class UpdateUserController {
             id,
             nome,
             telefone,
-            cpf,
             cep,
             logradouro,
             cidade,
-            estado
+            estado,
+            permissions
         } = request.body;
 
-        if (!id || !nome || !telefone || !cpf || !cep || !logradouro || !cidade || !estado) {
+        if (!id || !nome || !telefone || !cep || !logradouro || !cidade || !estado) {
             return response.status(400).send({error: 400, message: 'Preencha todos os campos'});
         }
 
         const telefoneRep = telefone.replace(/\D+/g, "");
-
-        const cpfRep = await hash(cpf.replace(/\D+/g, ""), process.env.BCRYPT_SALT);
 
         const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
@@ -32,11 +29,11 @@ class UpdateUserController {
             id: id,
             nome: nome,
             telefone: telefoneRep,
-            cpf: cpfRep,
             cep: cep,
             logradouro: logradouro,
             cidade: cidade,
-            estado: estado
+            estado: estado,
+            permissions: permissions
         })
 
         return response.status(200).send(user);

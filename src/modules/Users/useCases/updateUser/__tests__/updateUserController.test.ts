@@ -6,6 +6,7 @@ import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
+import { hash } from "bcrypt";
 
 describe('Update user - Controller', () => {
     const updateUserController: UpdateUserController = new UpdateUserController();
@@ -44,6 +45,7 @@ describe('Update user - Controller', () => {
                 logradouro: "Rua Profeta II",
                 cidade: "São Luís",
                 estado: "MA",
+                permissions: await hash("24250618005", process.env.BCRYPT_SALT)
             },
         } as unknown) as Request;
         const mRes = ({

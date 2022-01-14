@@ -25,16 +25,19 @@ describe('Delete user - Controller', () => {
 
     it('Should pass when request is sent in the correct format and HTTP status code 204 is returned', async () => {
         const createUserUseCase = container.resolve(CreateUserUseCase)
+        const cpf = await hash("111.111.111-11", process.env.BCRYPT_SALT);
 
         try {
+
             userId = (await createUserUseCase.execute({
                 nome: "Usuário teste",
                 telefone: "(11) 11111-1111",
-                cpf: await hash("111.111.111-11", process.env.BCRYPT_SALT),
+                cpf: cpf,
                 cep: "95059340",
                 logradouro: "Rua 11",
                 cidade: "Cidade 11",
                 estado: "Estado 11",
+                permissions: cpf
             })).id
 
         } catch (e) {
@@ -45,6 +48,9 @@ describe('Delete user - Controller', () => {
                 params: {
                     id: userId
                 },
+                body: {
+                    permissions: cpf
+                }
             } as unknown) as Request;
     
             const mRes = ({
@@ -64,6 +70,9 @@ describe('Delete user - Controller', () => {
             params: {
                 id: undefined
             },
+            body: {
+                permissions: ""
+            }
         } as unknown) as Request;
         const mRes = ({
             status: jest.fn().mockReturnThis(), 

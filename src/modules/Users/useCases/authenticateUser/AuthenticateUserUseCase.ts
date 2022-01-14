@@ -27,16 +27,10 @@ class AuthenticateUserUseCase {
     user = await this.userRepository.getByCPF(await hash(cpf, process.env.BCRYPT_SALT));
 
     if (!user) { 
-      throw new AppError('Usuário não encontrado!', 400); 
+      throw new AppError('CPF ou Telefone incorreto!', 400); 
     }
 
     if (telefone !== user.telefone) {
-      throw new AppError('CPF ou Telefone incorreto!', 400);
-    }
-
-    const cpfMatch = await compare(cpf, user.cpf);
-
-    if (!cpfMatch) {
       throw new AppError('CPF ou Telefone incorreto!', 400);
     }
 

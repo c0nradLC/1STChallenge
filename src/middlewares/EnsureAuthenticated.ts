@@ -22,17 +22,24 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: userId } = verify(
+    const { sub } = verify(
       token,
       process.env.JWT_SECRET_KEY
     ) as IPayload;
 
     const userRepository = new UserRepository();
-    const user = await userRepository.getById(Number(userId));
+
+    const user = await userRepository.getById(Number(sub.split(':')[0]));
 
     if (!user) {
       throw new AppError("Usuário não existe", 401);
     }
+
+    if (user.cpf !== sub.split(':')[1]) {
+      throw new AppError("Token inválido", 401);
+    }
+
+    request.body.permissions = user.cpf;
 
     next();
   } catch {
