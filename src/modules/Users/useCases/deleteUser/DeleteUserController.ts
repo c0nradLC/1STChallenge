@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+
 import { DeleteUserUseCase } from "./DeleteUserUseCase";
 
 class DeleteUserController {

@@ -1,5 +1,6 @@
-import { ListUsersUseCase } from "../ListUsersUseCase";
 import { container } from "tsyringe";
+
+import { ListUsersUseCase } from "../ListUsersUseCase";
 import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';

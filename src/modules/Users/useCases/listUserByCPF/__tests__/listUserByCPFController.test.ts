@@ -1,12 +1,13 @@
+import { Request, Response } from "express";
+import { hash } from "bcrypt";
+import { container } from "tsyringe";
+
 import { ListUserByCPFController } from "../ListUserByCPFController";
 import { CreateUserUseCase } from "../../createUser/CreateUserUseCase";
 import { User } from "../../../entities/User";
-import { Request, Response } from "express";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { hash } from "bcrypt";
-import { container } from "tsyringe";
 
 describe('List user by CPF - Controller', () => {
     const listUserByCPFController: ListUserByCPFController = new ListUserByCPFController();

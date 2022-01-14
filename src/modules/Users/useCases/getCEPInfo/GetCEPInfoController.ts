@@ -1,9 +1,11 @@
 import "reflect-metadata";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+
 import { GetCEPInfoUseCase } from "./GetCEPInfoUseCase";
+import { IUserCEPInfoDTO } from "../../dtos/IUserCEPInfoDTO";
+
 import { getClient } from '../../../../utils/redis';
-import { IUserCEPInfoDTO } from "modules/Users/dtos/IUserCEPInfoDTO";
 
 class GetCEPInfoController {
     async handle(request: Request, response: Response): Promise<Response> {

@@ -1,6 +1,7 @@
+import { Request, Response } from "express";
+
 import { ListUsersController } from "../ListUsersController";
 import { User } from "../../../entities/User";
-import { Request, Response } from "express";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';

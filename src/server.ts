@@ -1,9 +1,10 @@
 import express, {Request, Response, NextFunction} from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+
+import { router } from './routes/index';
 import createConnection from './database';
 import ErrorHandler from './middlewares/ErrorHandler';
-import { router } from './routes/index';
 
 import './shared/container';
 

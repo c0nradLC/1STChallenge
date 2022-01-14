@@ -1,7 +1,8 @@
-import { UpdateUserController } from "../UpdateUserController";
-import { getRepository } from "typeorm";
-import { User } from "../../../entities/User";
 import { Request, Response } from "express";
+import { getRepository } from "typeorm";
+
+import { UpdateUserController } from "../UpdateUserController";
+import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';

@@ -1,8 +1,9 @@
 import "reflect-metadata";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { ListUserByCPFUseCase } from "./ListUserByCPFUseCase";
 import { hash } from "bcrypt";
+
+import { ListUserByCPFUseCase } from "./ListUserByCPFUseCase";
 
 class ListUserByCPFController {
     async handle(request: Request, response: Response): Promise<Response> {

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
+
 import { IUserRepository } from "../../repositories/IUserRepository";
 import { IUserDTO } from "../../dtos/IUserDTO";
 import { AppError } from "../../../../errors/AppError";

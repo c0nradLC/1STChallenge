@@ -1,10 +1,10 @@
-import { CreateUserController } from "../CreateUserController";
-
 import { Request, Response } from "express";
+import { hash } from "bcrypt";
+
+import { CreateUserController } from "../CreateUserController";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { hash } from "bcrypt";
 
 describe('Create user - Controller', () => {
     const createUserController: CreateUserController = new CreateUserController();

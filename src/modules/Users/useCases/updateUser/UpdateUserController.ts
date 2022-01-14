@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { hash } from "bcrypt";
 
 import { UpdateUserUseCase } from './UpdateUserUseCase';
-import { hash } from "bcrypt";
 
 class UpdateUserController {
     async handle(request: Request, response: Response): Promise<Response> {

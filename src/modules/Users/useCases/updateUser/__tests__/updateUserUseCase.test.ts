@@ -1,12 +1,13 @@
-import { UpdateUserUseCase } from "../UpdateUserUseCase";
 import { container } from "tsyringe";
+import { getRepository } from "typeorm";
+import { hash } from "bcrypt";
+
+import { UpdateUserUseCase } from "../UpdateUserUseCase";
+import { User } from "../../../entities/User";
+import { IUserDTO } from "modules/Users/dtos/IUserDTO";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { getRepository } from "typeorm";
-import { User } from "../../../entities/User";
-import { IUserDTO } from "modules/Users/dtos/IUserDTO";
-import { hash } from "bcrypt";
 
 describe('Update user - Use case', () => {
     let updateUserUseCase: UpdateUserUseCase;

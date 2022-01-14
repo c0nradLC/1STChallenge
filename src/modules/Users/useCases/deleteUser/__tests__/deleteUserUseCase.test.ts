@@ -1,10 +1,11 @@
-import { DeleteUserUseCase } from "../DeleteUserUseCase";
+import { getRepository } from "typeorm";
 import { container } from "tsyringe";
+
+import { DeleteUserUseCase } from "../DeleteUserUseCase";
+import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { getRepository } from "typeorm";
-import { User } from "../../../entities/User";
 
 describe('Delete user - Use case', () => {
     let deleteUserUseCase: DeleteUserUseCase;

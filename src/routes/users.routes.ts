@@ -6,6 +6,7 @@ import { UpdateUserController } from "../modules/Users/useCases/updateUser/Updat
 import { DeleteUserController } from "../modules/Users/useCases/deleteUser/DeleteUserController";
 import { ListUserByCPFController } from "../modules/Users/useCases/listUserByCPF/ListUserByCPFController";
 import { GetCEPInfoController } from "../modules/Users/useCases/getCEPInfo/GetCEPInfoController";
+
 import { ensureAuthenticated } from "../middlewares/EnsureAuthenticated";
 
 const usersRoutes = Router();

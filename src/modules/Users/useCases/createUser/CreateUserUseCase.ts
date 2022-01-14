@@ -1,12 +1,11 @@
 import "reflect-metadata";
-import { IUserRepository } from "../../repositories/IUserRepository";
 import { inject, injectable } from "tsyringe";
+
+import { IUserRepository } from "../../repositories/IUserRepository";
 import { IUserDTO } from "../../dtos/IUserDTO";
 import { User } from "../../entities/User";
 import { IViaCepProvider } from "../../../../shared/container/providers/ViaCepProvider/IViaCepProvider";
 import { AppError } from "../../../../errors/AppError";
-import { hash } from 'bcrypt';
-
 
 @injectable()
 class CreateUserUseCase {

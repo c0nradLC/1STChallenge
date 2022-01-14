@@ -1,11 +1,12 @@
-import { ListUserByCPFUseCase } from "../ListUserByCPFUseCase";
+import { getRepository } from "typeorm";
+import { hash } from "bcrypt";
 import { container } from "tsyringe";
+
+import { ListUserByCPFUseCase } from "../ListUserByCPFUseCase";
+import { User } from "../../../entities/User";
 
 import { dbConnection } from '../../../../../utils/tests/createConnection';
 import '../../../../../shared/container/index';
-import { User } from "../../../entities/User";
-import { getRepository } from "typeorm";
-import { hash } from "bcrypt";
 
 describe('List user by CPF - Use case', () => {
     let listUserByCPFUseCase: ListUserByCPFUseCase;
