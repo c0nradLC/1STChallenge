@@ -11,13 +11,10 @@ class UpdateUserController {
             nome,
             telefone,
             cep,
-            logradouro,
-            cidade,
-            estado,
             permissions
         } = request.body;
 
-        if (!id || !nome || !telefone || !cep || !logradouro || !cidade || !estado) {
+        if (!id || !nome || !telefone || !cep) {
             return response.status(400).send({error: 400, message: 'Preencha todos os campos'});
         }
 
@@ -30,9 +27,6 @@ class UpdateUserController {
             nome: nome,
             telefone: telefoneRep,
             cep: cep,
-            logradouro: logradouro,
-            cidade: cidade,
-            estado: estado,
             permissions: permissions
         })
 
