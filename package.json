@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --poll --inspect=0.0.0.0 --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "test": "jest --detectOpenHandles --runInBand",
-    "test:coverage": "jest --detectOpenHandles --collectCoverage --runInBand",
+    "test": "jest --detectOpenHandles --runInBand --silent",
+    "test:coverage": "jest --detectOpenHandles --collectCoverage --runInBand --silent",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli"
   },
   "author": "",

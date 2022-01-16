@@ -6,7 +6,7 @@ const dbConnection = {
 
     await createConnection(
         Object.assign(options, {
-          database: process.env.TYPEORM_DATABASE_TEST,
+          database: process.env.TYPEORM_DATABASE,
           host: "0.0.0.0",
         }),
     );

@@ -3,17 +3,32 @@ import viaCep from "../../../../../services/viaCep";
 import { IViaCepDTO } from "../dtos/IViaCepDTO";
 import { IViaCepProvider } from "../IViaCepProvider";
 
+import { getClient } from "../../../../../utils/redis";
 class ViaCepProvider implements IViaCepProvider {
   constructor() {}
 
   async getCEPInfo(cep: string): Promise<IViaCepDTO> {
     try {
-      await process.nextTick(() => {}); // Workaround to make the viaCep.get() axios request not leave an openHandle when testing with jest
+      cep = cep.replace(/\D+/g, "");
+      const client = getClient();
 
-      const response = await viaCep.get(`/${cep.match(/^[0-9]+$/) ? cep : cep.replace(/\D+/g, "")}/json`)
+      await process.nextTick(() => {}); // Workaround to prevent jest from detecting this as an open handle when testing 
+      await client.connect();
 
-      return response.data;
+      if (! await client.exists(`${cep}`)) {
+        const { data } = await viaCep.get(`/${cep}/json`);
+
+        await client.set(`${cep}`, JSON.stringify(data));
+        await client.expire(`${cep}`, 300);
+        
+        return data;
+      } else {
+        const cepInfo: IViaCepDTO = JSON.parse(await client.get(`${cep}`));
+
+        return cepInfo;
+      }
     } catch (e) {
+      console.log(e);
     }
   }
 }
