@@ -33,6 +33,7 @@ na raíz do projeto, isso irá criar a coleção de requisiçoes "1stchallenge",
 2. Executar a requisição "Authenticate user" com as informações preenchidas e copiar o valor do campo "token";
 3. Colar o valor copiado do campo "token" em todas as requisições restantes na aba "Auth", selecionando o tipo de token "Bearer";
 4. Executar as requisições restantes com as informações preenchidas ou com as informações desejadas.
+
 Detalhe: As requisições "Delete user" e "Update user" estão preenchidas com o id de um usuário cadastrado anteriormente, à fim de demonstrar que com o token do usuário criado no passo 1 não é possível remover ou atualizar as informações de outro usuário, caso deseje remover ou atualizar as informações do usuário já existente(id: 6), é necessário obter o token do mesmo pela requisição "Authenticate user" com
 ```
 {
