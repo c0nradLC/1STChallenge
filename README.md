@@ -4,7 +4,7 @@ API para cadastro de usuários
 # Requisitos
 * Docker (20.10.7)
 * docker-compose (1.25.0)
-* node (12.16.3)
+* node (12.16.3 ou superior) <- Para os testes
 * Insomnia (2021.7.2) <- Não é necessário para fazer o projeto funcionar(mas facilita bastante)
 
 # Como instalar
